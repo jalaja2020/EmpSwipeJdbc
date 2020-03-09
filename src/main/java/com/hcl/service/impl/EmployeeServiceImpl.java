@@ -12,11 +12,12 @@ public class EmployeeServiceImpl {
 	@Autowired
 	EmployeeDao employeeDao;
 	
-	public void getAllEmployees() {
+	public List<Employee> getAllEmployees() {
 		List<Employee> employees = employeeDao.getAllEmployees();
 		for (Employee employee : employees) {
 			System.out.println(employee.toString());
 		}
+		return employees; 
 	}
 
 	public List<Employee> getEmployeeById(String empid) {

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hcl.exceptions.EmployeeNotFoundExcepetion;
 import com.hcl.model.Employee;
 import com.hcl.service.impl.EmployeeServiceImpl;
 
@@ -21,12 +22,20 @@ public class EmployeeController {
 	@RequestMapping(value = "/getAllEmployees", method = RequestMethod.GET)
 	public void getAllEmployees(Model model)
 	{
-		empService.getAllEmployees();
+		List<Employee> employees = empService.getAllEmployees();
+		if(employees.isEmpty()) {
+			throw new EmployeeNotFoundExcepetion();
+		}
+		 
 	}
 
 	@RequestMapping(value = "/getAllEmployees/admin/{id}", method = RequestMethod.GET)
 	public List<Employee> getAdminEmployeeById(@RequestParam String id)
 	{
+		List<Employee> employeeById = empService.getEmployeeById(id);
+		if(employeeById.isEmpty())
+			throw new EmployeeNotFoundExcepetion(Integer.parseInt(id));
+		else
 		return empService.getEmployeeById(id);
 	}
 

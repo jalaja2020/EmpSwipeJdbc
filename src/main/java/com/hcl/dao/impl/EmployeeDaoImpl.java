@@ -8,6 +8,8 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
@@ -17,7 +19,7 @@ import com.hcl.dao.EmployeeDao;
 import com.hcl.model.Employee;
 @Repository
 public class EmployeeDaoImpl extends JdbcDaoSupport implements EmployeeDao {
-
+	Logger logger=LoggerFactory.getLogger(EmployeeDaoImpl.class);
 	@Autowired 
 	DataSource dataSource;
 	
@@ -31,7 +33,6 @@ public class EmployeeDaoImpl extends JdbcDaoSupport implements EmployeeDao {
 	public List<Employee> getAllEmployees() {
 		String sql = "SELECT * FROM employeeswipe";
 		List<Map<String, Object>> rows = getJdbcTemplate().queryForList(sql);
-		
 		List<Employee> result = new ArrayList<Employee>();
 		for(Map<String, Object> row:rows){
 			Employee emp = new Employee();
